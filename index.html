@@ -80,6 +80,7 @@
 							var selectedAnswer = $(this).text();
 							if(selectedAnswer === correctAnswer) {
 								document.getElementById("question").style.color = '#0cff00';
+								setTimeout(location.reload.bind(location), 1500);
 							} else {
 								document.getElementById("question").style.color = '#ff3333';
 							}			
