@@ -399,3 +399,54 @@
 					});
 
 })(jQuery);
+
+				//shuffle function
+				function shuffle(array) {
+					var currentIndex = array.length, temporaryValue, randomIndex;
+					while (0 !== currentIndex) {
+					  randomIndex = Math.floor(Math.random() * currentIndex);
+					  currentIndex -= 1;
+					  temporaryValue = array[currentIndex];
+					  array[currentIndex] = array[randomIndex];
+					  array[randomIndex] = temporaryValue;
+					}
+					return array;
+				  }
+				  //trivia request
+				  $.getJSON('https://opentdb.com/api.php?amount=1', function(data) {
+					  //Category
+					  var category = data.results[0].category;
+					  $("#category").html(category);;
+					  //Question
+					  var question = data.results[0].question;
+					  $("#question").html(question);
+					  //Difficulty
+					  var difficulty = data.results[0].difficulty;
+					  $("#difficulty").html(difficulty);
+					  //creating Answers array
+					  var correctAnswer = data.results[0].correct_answer;
+					  var answers = data.results[0].incorrect_answers;
+					  answers.push(correctAnswer);
+					  answers = shuffle(answers);
+					  var answerList = $("ul.answers");
+					  answerList.add(answerList);
+					  answers.forEach(function (item) {
+						  var li = document.createElement('li');
+						  var link = document.createElement('a');
+						  answerList.append(li);
+						  li.append(link);
+						  //li.innerHTML += item;
+						  link.innerHTML += item;
+						  link.label += item;
+						  //check answer
+						  $("#answers").on('click','li',function(){
+							  var selectedAnswer = $(this).text();
+							  if(selectedAnswer === correctAnswer) {
+								  document.getElementById("question").style.color = '#0cff00';
+								  setTimeout(location.reload.bind(location), 1500);
+							  } else {
+								  document.getElementById("question").style.color = '#ff3333';
+							  }			
+						  });
+					  });
+				  });
